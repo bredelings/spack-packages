@@ -21,11 +21,8 @@ class BaliPhy(MesonPackage):
 
     version("4.3", sha256="02ea2f882ed55cd5cc1d4b15ceb56861c729f20f6302fbd3e65c8c61b848e3c6")
 
-    # These variants require dependencies; opt-outs preserve upstream automatic discovery.
     variant("doc", default=True, description="Require Pandoc for manual-page generation")
     variant("cairo", default=True, description="Require Cairo for drawing trees")
-
-    # Without R, summary reports omit some convergence diagnostics and plots.
     variant(
         "r", default=True, description="Require R for convergence diagnostics and summary plots"
     )
