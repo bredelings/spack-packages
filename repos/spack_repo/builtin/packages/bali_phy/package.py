@@ -21,6 +21,11 @@ class BaliPhy(MesonPackage):
 
     version("4.3", sha256="02ea2f882ed55cd5cc1d4b15ceb56861c729f20f6302fbd3e65c8c61b848e3c6")
 
+    # Without R, summary reports omit some convergence diagnostics and plots.
+    variant(
+        "r", default=True, description="Include R for convergence diagnostics and summary plots"
+    )
+
     depends_on("c", type="build")
     depends_on("cxx", type="build")
     depends_on("meson@1.6:", type="build")
@@ -36,7 +41,7 @@ class BaliPhy(MesonPackage):
     depends_on("utf8proc")
     depends_on("cairo +pdf +png +svg +ft +fc")
     depends_on("python@3:", type=("build", "run"))
-    depends_on("r", type="run")
+    depends_on("r", type="run", when="+r")
 
     conflicts("%cxx=gcc@:12", msg="BAli-Phy requires C++23 support (GCC 13 or newer)")
     conflicts("%cxx=llvm@:17", msg="BAli-Phy requires Clang 18 or newer")
