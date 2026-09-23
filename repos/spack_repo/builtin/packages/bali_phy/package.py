@@ -50,7 +50,11 @@ class BaliPhy(MesonPackage):
 
     # Work around 4.3's static Zstd request, which can select a system archive over Spack's
     # shared library. Later versions containing the upstream fix do not need this patch.
-    patch("zstd-linkage.patch", when="@4.3")
+    patch(
+        "https://github.com/bredelings/BAli-Phy/commit/8d4d6482d602b6e4ec7c6a8383b23f87361727ea.patch?full_index=1",
+        sha256="97389870cc327a69a16a43c2260e9f33d9e800815a57f6853583cdda8f01cc59",
+        when="@4.3",
+    )
 
     def setup_build_environment(self, env):
         env.set("BOOST_ROOT", self.spec["boost"].prefix)
