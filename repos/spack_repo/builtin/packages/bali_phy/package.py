@@ -2,8 +2,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-import tempfile
-from pathlib import Path
+import os
 
 from spack_repo.builtin.build_systems.meson import MesonPackage
 
@@ -55,12 +54,7 @@ class BaliPhy(MesonPackage):
     # Keep this small package smoke test alongside the upstream analysis tests.
     def test_analysis(self):
         """Run a short seeded analysis using the installed examples and model libraries."""
-        with tempfile.TemporaryDirectory() as directory:
-            with working_dir(directory):
-                bali_phy = Executable(str(Path(self.prefix.bin) / "bali-phy"))
-                bali_phy(
-                    str(Path(self.prefix.share.doc) / "bali-phy/examples/5S-rRNA/5d.fasta"),
-                    "--iterations=20",
-                    "--seed=12345",
-                )
-                assert Path("5d-1/C1.log").is_file()
+        bali_phy = which("bali-phy", path=self.prefix.bin, required=True)
+        fasta = join_path(self.prefix.share.doc, "bali-phy", "examples", "5S-rRNA", "5d.fasta")
+        bali_phy(fasta, "--iterations=20", "--seed=12345")
+        assert os.path.isfile(join_path("5d-1", "C1.log"))
