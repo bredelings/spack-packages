@@ -39,9 +39,9 @@ class BaliPhy(MesonPackage):
     depends_on("cli11@2.6.1:", type="build")
     depends_on("eigen@3.4:", type="build")
     depends_on("cereal", type="build")
-    depends_on("fmt@12: ~shared")
+    depends_on("fmt@12:")
     depends_on("xxhash")
-    depends_on("zstd libs=static")
+    depends_on("zstd")
     depends_on("utf8proc")
     depends_on("cairo +pdf +png +svg +ft +fc", when="+cairo")
     depends_on("python@3:", type=("build", "run"))
@@ -50,6 +50,10 @@ class BaliPhy(MesonPackage):
     conflicts("%cxx=gcc@:12", msg="BAli-Phy requires C++23 support (GCC 13 or newer)")
     conflicts("%cxx=llvm@:17", msg="BAli-Phy requires Clang 18 or newer")
     conflicts("%cxx=apple-clang@:15", msg="BAli-Phy requires Apple Clang 16 or newer")
+
+    # Work around 4.3's static Zstd request, which can select a system archive over Spack's
+    # shared library. Later versions containing the upstream fix do not need this patch.
+    patch("zstd-linkage.patch", when="@4.3")
 
     def setup_build_environment(self, env):
         env.set("BOOST_ROOT", self.spec["boost"].prefix)
