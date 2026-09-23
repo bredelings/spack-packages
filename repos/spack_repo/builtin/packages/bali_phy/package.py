@@ -22,6 +22,7 @@ class BaliPhy(MesonPackage):
     version("4.3", sha256="02ea2f882ed55cd5cc1d4b15ceb56861c729f20f6302fbd3e65c8c61b848e3c6")
 
     variant("doc", default=True, description="Require Pandoc for manual-page generation")
+    variant("cairo", default=True, description="Require Cairo for drawing trees")
 
     # Without R, summary reports omit some convergence diagnostics and plots.
     variant(
@@ -41,7 +42,7 @@ class BaliPhy(MesonPackage):
     depends_on("xxhash")
     depends_on("zstd libs=static")
     depends_on("utf8proc")
-    depends_on("cairo +pdf +png +svg +ft +fc")
+    depends_on("cairo +pdf +png +svg +ft +fc", when="+cairo")
     depends_on("python@3:", type=("build", "run"))
     depends_on("r", type="run", when="+r")
 
@@ -52,9 +53,7 @@ class BaliPhy(MesonPackage):
     def setup_build_environment(self, env):
         env.set("BOOST_ROOT", self.spec["boost"].prefix)
 
-    # Meson treats Cairo as optional; require it so the package includes drawing tools.
     def meson_args(self):
-        which("pkg-config", required=True)("--cflags", "--libs", "cairo")
         return ["-Db_ndebug=true", "-Dwith-mpi=false", "-Dextra-tools=true"]
 
     # Exercise installed model files and MCMC; --version alone misses incomplete installations.
