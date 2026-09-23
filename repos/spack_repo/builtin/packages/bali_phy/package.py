@@ -21,6 +21,8 @@ class BaliPhy(MesonPackage):
 
     version("4.3", sha256="02ea2f882ed55cd5cc1d4b15ceb56861c729f20f6302fbd3e65c8c61b848e3c6")
 
+    variant("doc", default=True, description="Require Pandoc for manual-page generation")
+
     # Without R, summary reports omit some convergence diagnostics and plots.
     variant(
         "r", default=True, description="Include R for convergence diagnostics and summary plots"
@@ -30,7 +32,7 @@ class BaliPhy(MesonPackage):
     depends_on("cxx", type="build")
     depends_on("meson@1.6:", type="build")
     depends_on("cmake", type="build")  # Discover Cereal and CLI11's CMake metadata.
-    depends_on("pandoc", type="build")
+    depends_on("pandoc", type="build", when="+doc")
     depends_on("boost@1.81: +program_options +random +chrono +json")
     depends_on("cli11@2.6.1:", type="build")
     depends_on("eigen@3.4:", type="build")
