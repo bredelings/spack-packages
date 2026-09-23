@@ -7,16 +7,7 @@ from pathlib import Path
 
 from spack_repo.builtin.build_systems.meson import MesonPackage
 
-from spack.package import (
-    Executable,
-    conflicts,
-    depends_on,
-    license,
-    maintainers,
-    version,
-    which,
-    working_dir,
-)
+from spack.package import *
 
 
 class BaliPhy(MesonPackage):
@@ -24,7 +15,9 @@ class BaliPhy(MesonPackage):
 
     homepage = "https://www.bali-phy.org"
     url = "https://github.com/bredelings/BAli-Phy/archive/refs/tags/4.3.tar.gz"
+
     maintainers("bredelings")
+
     license("GPL-2.0-or-later")
 
     version("4.3", sha256="02ea2f882ed55cd5cc1d4b15ceb56861c729f20f6302fbd3e65c8c61b848e3c6")
