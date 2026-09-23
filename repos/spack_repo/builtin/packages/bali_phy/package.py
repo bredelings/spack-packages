@@ -55,7 +55,7 @@ class BaliPhy(MesonPackage):
         env.set("BOOST_ROOT", self.spec["boost"].prefix)
 
     def meson_args(self):
-        return ["-Db_ndebug=true", "-Dwith-mpi=false", "-Dextra-tools=true"]
+        return ["-Dwith-mpi=false", "-Dextra-tools=true"]
 
     # Exercise installed model files and MCMC; --version alone misses incomplete installations.
     def test_analysis(self):
