@@ -58,7 +58,6 @@ class BaliPhy(MesonPackage):
         return ["-Db_ndebug=true", "-Dwith-mpi=false", "-Dextra-tools=true"]
 
     # Exercise installed model files and MCMC; --version alone misses incomplete installations.
-    # Keep this small package smoke test alongside the upstream analysis tests.
     def test_analysis(self):
         """Run a short seeded analysis using the installed examples and model libraries."""
         bali_phy = which("bali-phy", path=self.prefix.bin, required=True)
